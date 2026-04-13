@@ -3,6 +3,9 @@ import path from 'path';
 
 const AUTH_FILE = path.join(__dirname, '.auth/session.json');
 
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@demo.com';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '123456';
+
 export default async function globalSetup() {
   const browser = await chromium.launch();
   const context = await browser.newContext({
@@ -11,8 +14,8 @@ export default async function globalSetup() {
   const page = await context.newPage();
 
   await page.goto('https://motolife.rootdevs.xyz/root-lab/admin/login');
-  await page.getByRole('textbox', { name: 'Email' }).fill('admin@demo.com');
-  await page.getByRole('textbox', { name: 'Password' }).fill('123456');
+  await page.getByRole('textbox', { name: 'Email' }).fill(ADMIN_EMAIL);
+  await page.getByRole('textbox', { name: 'Password' }).fill(ADMIN_PASSWORD);
   await page.getByRole('button', { name: 'Login' }).click();
   await page.waitForLoadState('networkidle');
 
