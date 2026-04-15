@@ -36,7 +36,6 @@ export default defineConfig({
         viewport: { width: 1920, height: 1080 },
         storageState: 'motolife_tests/.auth/session.json',
       },
-      dependencies: ['setup'],
     },
   ],
 
