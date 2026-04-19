@@ -279,25 +279,64 @@ test.describe('Product E2E Advanced Tests - Variants', () => {
     await page.getByRole('switch', { name: 'Enable Product Variation?' }).click();
     await page.waitForTimeout(500);
     
+    // Add variation 1: Size with S, M, L values
     await page.getByRole('combobox', { name: 'Attribute Name (optional)' }).click();
-    await page.waitForTimeout(300);
-    const attrOptions = await page.locator('[role="option"]').all();
-    if (attrOptions.length > 0) await attrOptions[0].click();
+    await page.waitForTimeout(500);
+    await page.locator('[role="option"]').filter({ hasText: 'Size' }).click();
     await page.waitForTimeout(500);
     await page.locator('.css-19bb58m').click();
-    await page.waitForTimeout(300);
-    const valOpts1 = await page.locator('[role="option"]').all();
-    if (valOpts1.length > 0) await valOpts1[0].click();
-    await page.waitForTimeout(300);
-    await page.locator('.css-19bb58m').click();
-    await page.waitForTimeout(300);
-    const valOpts2 = await page.locator('[role="option"]').all();
-    if (valOpts2.length > 1) await valOpts2[1].click();
+    await page.waitForTimeout(500);
+    await page.locator('[role="option"]').filter({ hasText: 'S' }).click();
     await page.waitForTimeout(300);
     await page.locator('.css-19bb58m').click();
     await page.waitForTimeout(300);
-    const valOpts3 = await page.locator('[role="option"]').all();
-    if (valOpts3.length > 2) await valOpts3[2].click();
+    await page.locator('[role="option"]').filter({ hasText: 'M' }).click();
+    await page.waitForTimeout(300);
+    await page.locator('.css-19bb58m').click();
+    await page.waitForTimeout(300);
+    await page.getByRole('option', { name: 'L', exact: true }).click();
+    await page.waitForTimeout(800);
+    
+    // Add variation 2: Gender - click Add Variant button first
+    await page.locator('button:has-text("Add Variant")').click();
+    await page.waitForTimeout(1500);
+    
+    // Look for the newly added row with "Attribute Name" label
+    // The new row will appear after the first variation row
+    await page.locator('text=Attribute Name').nth(1).click();
+    await page.waitForTimeout(500);
+    await page.locator('[role="option"]').filter({ hasText: 'Gender' }).click();
+    await page.waitForTimeout(500);
+    
+    // Select gender values - use last() for the new dropdown
+    await page.waitForTimeout(500);
+    await page.locator('.css-19bb58m').last().click();
+    await page.waitForTimeout(500);
+    await page.getByRole('option', { name: 'Male', exact: true }).click();
+    await page.waitForTimeout(300);
+    await page.locator('.css-19bb58m').last().click();
+    await page.waitForTimeout(300);
+    await page.getByRole('option', { name: 'Female', exact: true }).click();
+    await page.waitForTimeout(800);
+
+    // Add variation 3: Color
+    await page.locator('button:has-text("Add Variant")').click();
+    await page.waitForTimeout(1500);
+    
+    // Look for the third "Attribute Name" label
+    await page.locator('text=Attribute Name').nth(2).click();
+    await page.waitForTimeout(500);
+    await page.locator('[role="option"]').filter({ hasText: 'Color' }).click();
+    await page.waitForTimeout(500);
+    
+    await page.locator('.css-19bb58m').last().click();
+    await page.waitForTimeout(500);
+    await page.getByRole('option', { name: 'Black', exact: true }).click();
+    await page.waitForTimeout(300);
+    await page.locator('.css-19bb58m').last().click();
+    await page.waitForTimeout(300);
+    await page.getByRole('option', { name: 'Red', exact: true }).click();
+    await page.waitForTimeout(500);
 
     await setSwitch(page, 'Enable Product Discount?', true);
     await selectOption(page, 'text=Discount Type', 'Percentage');
